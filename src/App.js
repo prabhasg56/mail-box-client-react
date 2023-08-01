@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import SignUpPage from "./pages/Auth/SignUpPage";
 import SignInPage from "./pages/Auth/SignInPage";
 import { signUp, signIn } from "./store/auth-action";
+import ComposeMailPage from "./pages/Mail/ComposeMailPage";
 
 let isInitial = true;
 
@@ -26,6 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SignUpPage />} />
         <Route path="signin" element={<SignInPage />} />
+        <Route path="composeMail" element={<ComposeMailPage />} />
       </Routes>
     </>
   );

@@ -42,7 +42,7 @@ const SignInForm = (props) => {
           localStorage.setItem('loginEmail', jsonResponse.email);
 
           dispatch(authAction.signIn({idToken: jsonResponse.idToken, userId: enteredEmail}));
-          navigate('/welcome');
+          navigate('/composeMail');
           emailRef.current.value = "";
           passwordRef.current.value = "";
         } else {
