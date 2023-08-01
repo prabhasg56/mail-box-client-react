@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { authAction } from "../../store/auth-slice";
@@ -8,8 +8,11 @@ const SignInForm = (props) => {
   const emailRef = useRef(""),
     passwordRef = useRef("");
 
-  const navigate = useNavigate(); // for navigate one page to another page
+  const navigate = useNavigate();// for navigate one page to another page
   const dispatch = useDispatch();
+
+  const baseUrl =
+    "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCOXYGDoFgU8UDbBDjYt3UOxefk96nn6t4";
 
   const signInHandler = async (e) => {
     e.preventDefault();
@@ -18,14 +21,36 @@ const SignInForm = (props) => {
       enteredPassword = passwordRef.current.value;
 
     if (enteredEmail && enteredPassword) {
-      dispatch(
-        authAction.signIn({
-          email: enteredEmail,
-          password: enteredPassword,
-        })
-      );
-      emailRef.current.value = '';
-      passwordRef.current.value = '';
+      try {
+        const response = await fetch(baseUrl, {
+          method: "post",
+          body: JSON.stringify({
+            email: enteredEmail,
+            password: enteredPassword,
+            returnSecureToken: true,
+          }),
+          Headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const jsonResponse = await response.json();
+
+        if (response.status === 200) {
+          alert("Login successfull!");
+          localStorage.setItem('token', jsonResponse.idToken);
+          localStorage.setItem('loginEmail', jsonResponse.email);
+
+          dispatch(authAction.signIn({idToken: jsonResponse.idToken, userId: enteredEmail}));
+          navigate('/welcome');
+          emailRef.current.value = "";
+          passwordRef.current.value = "";
+        } else {
+          throw new Error(jsonResponse.error.message);
+        }
+      } catch (error) {
+        alert(error.message);
+      }
     } else {
       alert("Please valid email or password!");
     }
@@ -33,7 +58,7 @@ const SignInForm = (props) => {
 
   const forgotModalHandler = () => {
     props.showModalHandler(true);
-  };
+  }
 
   return (
     <>
@@ -60,6 +85,7 @@ const SignInForm = (props) => {
           </div>
 
           <div className="d-grid">
+            
             <Button
               type="submit"
               className="btn btn-primary rounded-pill"
@@ -67,12 +93,7 @@ const SignInForm = (props) => {
             >
               Sign In
             </Button>
-            <p
-              className="ms-5 user-select-none mt-2"
-              onClick={() => forgotModalHandler()}
-            >
-              Forgot Password?
-            </p>
+            <p className="ms-5 user-select-none mt-2" onClick={() => forgotModalHandler()}>Forgot Password?</p>
           </div>
         </Form>
       </div>

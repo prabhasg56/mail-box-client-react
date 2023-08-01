@@ -21,15 +21,6 @@ function App() {
     dispatch(signUp(authData));
   }, [authData]);
 
-  useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      return;
-    }
-
-    dispatch(signIn(authData));
-  }, [authData]);
-
   return (
     <>
       <Routes>

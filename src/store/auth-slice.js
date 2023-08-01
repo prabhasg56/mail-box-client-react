@@ -13,8 +13,8 @@ const authSlice = createSlice({
     initialState: initialAuthState,
     reducers: {
         signIn(state, action){
-            state.userId= action.payload.email;
-            state.password = action.payload.password;
+            state.userId= action.payload.userId;
+            state.idToken = action.payload.idToken;
         },
         signUp(state, action){
             state.userId= action.payload.email;

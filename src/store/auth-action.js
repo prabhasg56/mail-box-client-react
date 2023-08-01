@@ -67,8 +67,7 @@ export const signIn = (userLoginData) => {
 
     try {
       const authData = await sendRequest();
-
-      alert("Your are successfully loggedIn!");
+      alert("Welcome to Mail Box!");
     } catch (error) {
       alert(error);
     }
