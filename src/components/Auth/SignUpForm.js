@@ -1,11 +1,16 @@
 import { useRef } from "react";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+
+import { authAction } from "../../store/auth-slice";
 
 const SignUpForm = () => {
   const emailRef = useRef(""),
     passwordRef = useRef(""),
     confirmPasswordRef = useRef("");
+
+  const dispatch = useDispatch();
 
   const basUrl =
     "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCOXYGDoFgU8UDbBDjYt3UOxefk96nn6t4";
@@ -23,35 +28,16 @@ const SignUpForm = () => {
       enteredPassword &&
       enteredConfirmPassword
     ) {
-      try {
-        const response = await fetch(basUrl, {
-          method: "post",
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassword,
-            confirmPassword: enteredConfirmPassword,
-            returnSecureToken: true,
-          }),
-          Headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const jsonResponse = await response.json();
-
-        if (response.status === 200) {
-          alert("Your are successfully register!");
-          localStorage.setItem('siginUpIdToken',jsonResponse.idToken)
-          localStorage.setItem('signupEmail', enteredEmail)
-          emailRef.current.value = "";
-          passwordRef.current.value = "";
-          confirmPasswordRef.current.value = "";
-        } else {
-          throw new Error(jsonResponse.error.message);
-        }
-      } catch (error) {
-        alert(error);
-      }
+      dispatch(
+        authAction.signUp({
+          email: enteredEmail,
+          password: enteredPassword,
+          confirmPassword: enteredConfirmPassword,
+        })
+      );
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
+      confirmPasswordRef.current.value = "";
     } else {
       alert("Please enter same password!");
     }
@@ -101,7 +87,7 @@ const SignUpForm = () => {
         </Form>
       </div>
       <div className="d-flex justify-content-center mt-2 ">
-        <NavLink to = "signin" className="btn btn-secondary">
+        <NavLink to="signin" className="btn btn-secondary">
           Have an account? Login
         </NavLink>
       </div>
