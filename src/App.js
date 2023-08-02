@@ -6,6 +6,8 @@ import SignUpPage from "./pages/Auth/SignUpPage";
 import SignInPage from "./pages/Auth/SignInPage";
 import { signUp, signIn } from "./store/auth-action";
 import ComposeMailPage from "./pages/Mail/ComposeMailPage";
+import MainNavigation from "./components/Layout/MainNavigation";
+import SideBarMenu from "./components/SideMenu/SideBarMenu";
 
 let isInitial = true;
 
@@ -24,6 +26,7 @@ function App() {
 
   return (
     <>
+    <SideBarMenu/>
       <Routes>
         <Route path="/" element={<SignUpPage />} />
         <Route path="signin" element={<SignInPage />} />
