@@ -77,8 +77,8 @@ const ComposeMail = () => {
 
   return (
     <Fragment>
-      <div className="p-5 bg-secondary vh-100">
-        <div className="container bg-white mt-5 p-5">
+      <div className="p-5 bg-secondary vh-100 ">
+        <div className="container bg-white p-5 ">
           <h3>Compose mail</h3>
           <Stack
             className="border-bottom border-dark"

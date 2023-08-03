@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import 'bootstrap/js/dist/dropdown';
 
 import SignUpPage from "./pages/Auth/SignUpPage";
 import SignInPage from "./pages/Auth/SignInPage";
@@ -26,12 +27,14 @@ function App() {
 
   return (
     <>
-    <SideBarMenu/>
+    {/* <MainNavigation/> */}
+    <SideBarMenu>
       <Routes>
         <Route path="/" element={<SignUpPage />} />
         <Route path="signin" element={<SignInPage />} />
         <Route path="composeMail" element={<ComposeMailPage />} />
       </Routes>
+      </SideBarMenu>
     </>
   );
 }

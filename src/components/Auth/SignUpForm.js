@@ -45,7 +45,7 @@ const SignUpForm = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-center mt-5">
+      <div className="d-flex justify-content-center">
         <Form className="p-3 border border-dark rounded ">
           <h3 className="text-center">Sign Up</h3>
 
