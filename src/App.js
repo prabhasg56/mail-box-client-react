@@ -9,12 +9,45 @@ import { signUp, signIn } from "./store/auth-action";
 import ComposeMailPage from "./pages/Mail/ComposeMailPage";
 import MainNavigation from "./components/Layout/MainNavigation";
 import SideBarMenu from "./components/SideMenu/SideBarMenu";
+import Inbox from "./components/Mail/Inbox";
+import { mailAction } from "./store/mail-slice";
+import MailDetailsPage from "./pages/Mail/MailDetailsPage";
 
 let isInitial = true;
 
 function App() {
   const authData = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  useEffect(()=>{
+    const baseUrl = "https://mail-box-client-data-default-rtdb.firebaseio.com/";
+    const loginMail = localStorage.getItem("loginEmail");
+    const userId = loginMail.replace(/[@.]/g, "");
+
+    const fetchComposedMail = async () => {
+      try{
+        const response = await fetch(`${baseUrl}${userId}.json`)
+
+        const jsonResponse = await response.json();
+        if(!response.ok){
+          throw new Error(jsonResponse.error.message);
+        }
+
+        let composedMails = [];
+
+        for(let key in jsonResponse){
+          if(jsonResponse[key]){
+            composedMails.push({...jsonResponse[key], id: key});
+          }
+        }
+        dispatch(mailAction.sentMails(composedMails))
+      }catch(error) {
+        alert(error);
+      }
+    }
+
+    fetchComposedMail();
+  },[dispatch]);
 
   useEffect(() => {
     if (isInitial) {
@@ -31,8 +64,10 @@ function App() {
     <SideBarMenu>
       <Routes>
         <Route path="/" element={<SignUpPage />} />
-        <Route path="signin" element={<SignInPage />} />
-        <Route path="composeMail" element={<ComposeMailPage />} />
+        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/composeMail" element={authData.isAutenticate ? <ComposeMailPage />: <SignInPage />} />
+        <Route path="/inbox" element={authData.isAutenticate ? <Inbox /> : <SignInPage />} />
+        <Route path="/mail-details/:mailId" element={<MailDetailsPage/>}/>
       </Routes>
       </SideBarMenu>
     </>

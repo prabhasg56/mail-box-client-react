@@ -1,5 +1,6 @@
-.nav-pills li a:hover {
+.nav li a:hover {
     background-color: rgb(78, 75, 75)
+    
 }
 
 .dropdown-menu a:hover {

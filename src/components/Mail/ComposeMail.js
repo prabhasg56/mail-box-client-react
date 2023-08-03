@@ -6,7 +6,7 @@ import createTextVersion from "textversionjs";
 import { convertToHTML } from "draft-convert";
 import DOMPurify from "dompurify";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const ComposeMail = () => {
   const [showCC, setShowCC] = useState(false);
@@ -17,6 +17,7 @@ const ComposeMail = () => {
   const subjectRef = useRef("");
   const composedMailRef = useRef("");
   const [convertedContent, setConvertedContent] = useState(null);
+  const navigate = useNavigate();
 
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
@@ -69,7 +70,13 @@ const ComposeMail = () => {
       });
 
       const jsonResponse = await response.json();
-      console.log(createTextVersion(convertedContent));
+     if(!response.ok){
+      throw new Error(jsonResponse.error.message);
+     }
+
+     alert('Successfully sent..');
+     navigate('/inbox');
+
     } catch (error) {
       alert(error);
     }
@@ -77,7 +84,7 @@ const ComposeMail = () => {
 
   return (
     <Fragment>
-      <div className="p-5 bg-secondary vh-100 ">
+      <div className="p-5 bg-secondary max-vh-100 ">
         <div className="container bg-white p-5 ">
           <h3>Compose mail</h3>
           <Stack
@@ -94,7 +101,7 @@ const ComposeMail = () => {
                 required
               />
             </div>
-            <div className=" ms-auto">
+            <div className="ms-auto">
               <NavLink onClick={() => handleCC()}>Cc</NavLink>{" "}
               <NavLink onClick={() => handleBCC()}>Bcc</NavLink>
             </div>
@@ -148,10 +155,12 @@ const ComposeMail = () => {
             />
             {/* <div dangerouslySetInnerHTML={createMarkup(convertedContent)} ></div> */}
           </Container>
-          <Button className="fw-bold" onClick={() => composeMailHandler()}>
+         <Container className="d-flex flex-row " >
+         <Button className="fw-bold ms-auto" onClick={() => composeMailHandler()}>
             Send
           </Button>
-          <Button className="btn btn-danger ms-3 fw-bold">Cancel</Button>
+          <Button className="btn btn-danger  fw-bold ms-3">Cancel</Button>
+         </Container>
         </div>
       </div>
     </Fragment>

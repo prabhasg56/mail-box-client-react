@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import "./SideBarMenu.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const SideBarMenu = (props) => {
+  const navigate = useNavigate();
+  const authData = useSelector((state)=>state.auth);
+
+  const logOutHandler = () => {
+    localStorage.removeItem('token');
+    navigate('signin');
+  }
+
   return (
-    <div className="container-fluid">
+    <div className="container-fluid max-vh-100 ">
        
-      <div className="row">
+      <div className="row flex-nowrap">
         <div className="bg-dark col-auto col-md-2 min-vh-100 d-flex justify-content-between flex-column">
           <div>
             <a className="text-decoration-none text-white d-flex align-itemcenter ms-3 mt-2 ">
@@ -18,16 +27,16 @@ const SideBarMenu = (props) => {
               <i className="bi bi-pencil"></i>
               <NavLink className="d-none d-sm-inline ms-3 fw-bold text-decoration-none text-white" to='/composeMail'>Compose</NavLink>
             </Button>
-            <ul class="nav nav-pills flex-column ">
-              <li class="nav-item text-white fs-4 my-1 py-2 py-sm-0">
-                <a
-                  href="#"
-                  class="nav-link text-white fs-5"
+            <ul className="nav flex-column ">
+              <li className="nav-item text-white fs-4 my-1 py-2 py-sm-0">
+                <NavLink
+                  to="inbox"
+                  className="nav-link text-decoration-none text-white fs-5"
                   aria-current="page"
                 >
                   <i className="bi bi-inbox"></i>
                   <span className="ms-2 d-none d-sm-inline">Inbox</span>
-                </a>
+                </NavLink>
               </li>
               <li class="nav-item text-white fs-4 my-1 py-2 py-sm-0">
                 <a
@@ -93,13 +102,13 @@ const SideBarMenu = (props) => {
               </a>
               <a class="dropdown-item" href="#">
                 <span className="d-sm-inline">2</span>{" "}
-                <span className="d-none d-sm-inline">Log Out</span>
+                <span className="d-none d-sm-inline" onClick={()=> logOutHandler()}>{authData.isAutenticate ? "Log Out":"Log In"}</span>
               </a>
             </div>
           </div>
         </div>
+        <main className="col py-3">{props.children}</main>
       </div>
-      <main>{props.children}</main>
 
     </div>
   );
