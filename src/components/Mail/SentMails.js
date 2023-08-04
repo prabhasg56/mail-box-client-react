@@ -51,12 +51,13 @@ const SentMails = () => {
                     </td>
                     <td className="fw-bold">{mail.subject}</td>
 
+                    <td> {mail.date}</td>
                   </tr>
                 );
               })
             ) : (
               <h3 className="d-flex  justify-content-center">
-                There is empty!
+                There is no mail!
               </h3>
             )}
           </tbody>

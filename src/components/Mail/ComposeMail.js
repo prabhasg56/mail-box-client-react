@@ -48,7 +48,7 @@ const ComposeMail = () => {
     const enteredCCMail = ccMailRef.current.value;
     const enteredBCCMail = bccMailRef.current.value;
     const enteredSubject = subjectRef.current.value;
-    const enteredComposeMail = composedMailRef.current.value;
+    const currentDate = new Date().toLocaleString();
 
     const baseUrl = "https://mail-box-client-data-default-rtdb.firebaseio.com/";
     const loginMail = localStorage.getItem("loginEmail");
@@ -63,6 +63,7 @@ const ComposeMail = () => {
           bccMail: enteredBCCMail,
           subject: enteredSubject,
           composeMail: createTextVersion(convertedContent),
+          date: currentDate,
           messageRead: false
         }),
         headers: {

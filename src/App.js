@@ -30,6 +30,7 @@ function App() {
     const userId = loginMail.replace(/[@.]/g, "");
 
     const fetchComposedMail = async () => {
+      console.log('call')
       try {
         const response = await fetch(`${baseUrl}${userId}.json`);
 
@@ -56,8 +57,11 @@ function App() {
       }
     };
 
-    fetchComposedMail();
+    const intervals = setInterval(fetchComposedMail(), 2000);
+    clearInterval(intervals);
+
   }, [dispatch]);
+  
 
   useEffect(() => {
     if (isInitial) {
