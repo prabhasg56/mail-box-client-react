@@ -39,15 +39,15 @@ const SideBarMenu = (props) => {
                   <span className="ms-2 d-none d-sm-inline">Inbox <span style={{fontSize:'0.8rem'}}>unread {totalUnreadMessage}</span></span>
                 </NavLink>
               </li>
-              <li class="nav-item text-white fs-4 my-1 py-2 py-sm-0">
-                <a
-                  href="#"
-                  class="nav-link text-white fs-5"
+              <li className="nav-item text-white fs-4 my-1 py-2 py-sm-0">
+                <NavLink
+                  to="sent-mails"
+                  className="nav-link text-decoration-none text-white fs-5"
                   aria-current="page"
                 >
                   <i className="bi bi-send"></i>
                   <span className="ms-2 d-none d-sm-inline">Sent</span>
-                </a>
+                </NavLink>
               </li>
               <li class="nav-item text-white fs-4 my-1 py-2 py-sm-0">
                 <a

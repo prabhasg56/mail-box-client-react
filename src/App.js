@@ -12,6 +12,7 @@ import SideBarMenu from "./components/SideMenu/SideBarMenu";
 import Inbox from "./components/Mail/Inbox";
 import { mailAction } from "./store/mail-slice";
 import MailDetailsPage from "./pages/Mail/MailDetailsPage";
+import SentMails from "./components/Mail/SentMails";
 
 let isInitial = true;
 
@@ -81,6 +82,10 @@ function App() {
             <Route
               path="/inbox"
               element={authData.isAutenticate ? <Inbox /> : <SignInPage />}
+            />
+             <Route
+              path="/sent-mails"
+              element={authData.isAutenticate ? <SentMails /> : <SignInPage />}
             />
             <Route
               path="/composeMail"
