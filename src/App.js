@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import 'bootstrap/js/dist/dropdown';
+import "bootstrap/js/dist/dropdown";
 
 import SignUpPage from "./pages/Auth/SignUpPage";
 import SignInPage from "./pages/Auth/SignInPage";
@@ -17,37 +17,46 @@ let isInitial = true;
 
 function App() {
   const authData = useSelector((state) => state.auth);
+  let totalUnreadMessage = useSelector(
+    (state) => state.mail.totalUnreadMessage
+  );
+
   const dispatch = useDispatch();
 
-  useEffect(()=>{
+  useEffect(() => {
     const baseUrl = "https://mail-box-client-data-default-rtdb.firebaseio.com/";
     const loginMail = localStorage.getItem("loginEmail");
     const userId = loginMail.replace(/[@.]/g, "");
 
     const fetchComposedMail = async () => {
-      try{
-        const response = await fetch(`${baseUrl}${userId}.json`)
+      try {
+        const response = await fetch(`${baseUrl}${userId}.json`);
 
         const jsonResponse = await response.json();
-        if(!response.ok){
+        if (!response.ok) {
           throw new Error(jsonResponse.error.message);
         }
 
         let composedMails = [];
 
-        for(let key in jsonResponse){
-          if(jsonResponse[key]){
-            composedMails.push({...jsonResponse[key], id: key});
+        for (let key in jsonResponse) {
+          if (jsonResponse[key]) {
+            composedMails.push({ ...jsonResponse[key], id: key });
+          }
+
+          if (!jsonResponse[key].messageRead) {
+            totalUnreadMessage++;
           }
         }
-        dispatch(mailAction.sentMails(composedMails))
-      }catch(error) {
+        dispatch(mailAction.sentMails(composedMails));
+        dispatch(mailAction.updateUnreadMsg(totalUnreadMessage));
+      } catch (error) {
         alert(error);
       }
-    }
+    };
 
     fetchComposedMail();
-  },[dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isInitial) {
@@ -60,16 +69,29 @@ function App() {
 
   return (
     <>
-    {/* <MainNavigation/> */}
-    <SideBarMenu>
+      {/* <MainNavigation/> */}
       <Routes>
-        <Route path="/" element={<SignUpPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
-        <Route path="/composeMail" element={authData.isAutenticate ? <ComposeMailPage />: <SignInPage />} />
-        <Route path="/inbox" element={authData.isAutenticate ? <Inbox /> : <SignInPage />} />
-        <Route path="/mail-details/:mailId" element={<MailDetailsPage/>}/>
       </Routes>
-      </SideBarMenu>
+
+      {authData.isAutenticate && (
+        <SideBarMenu>
+          <Routes>
+            <Route
+              path="/inbox"
+              element={authData.isAutenticate ? <Inbox /> : <SignInPage />}
+            />
+            <Route
+              path="/composeMail"
+              element={
+                authData.isAutenticate ? <ComposeMailPage /> : <SignInPage />
+              }
+            />
+            <Route path="/mail-details/:mailId" element={<MailDetailsPage />} />
+          </Routes>
+        </SideBarMenu>
+      )}
     </>
   );
 }

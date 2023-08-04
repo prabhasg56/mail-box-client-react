@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 const SideBarMenu = (props) => {
   const navigate = useNavigate();
   const authData = useSelector((state)=>state.auth);
+  const totalUnreadMessage = useSelector((state)=> state.mail.totalUnreadMessage);
 
   const logOutHandler = () => {
     localStorage.removeItem('token');
@@ -35,7 +36,7 @@ const SideBarMenu = (props) => {
                   aria-current="page"
                 >
                   <i className="bi bi-inbox"></i>
-                  <span className="ms-2 d-none d-sm-inline">Inbox</span>
+                  <span className="ms-2 d-none d-sm-inline">Inbox <span style={{fontSize:'0.8rem'}}>unread {totalUnreadMessage}</span></span>
                 </NavLink>
               </li>
               <li class="nav-item text-white fs-4 my-1 py-2 py-sm-0">
@@ -92,13 +93,13 @@ const SideBarMenu = (props) => {
               aria-expanded="false"
             >
               <i className="bi bi-person-circle"></i>
-              <span className="ms-2">Prabhas</span>
+              <span className="ms-2">Profile</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="triggerId">
               <a class="dropdown-item" href="#">
                 {" "}
                 <span className="d-sm-inline">1</span>{" "}
-                <span className="d-none d-sm-inline">Profile</span>
+                <span className="d-none d-sm-inline">Settings</span>
               </a>
               <a class="dropdown-item" href="#">
                 <span className="d-sm-inline">2</span>{" "}

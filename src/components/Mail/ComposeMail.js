@@ -63,6 +63,7 @@ const ComposeMail = () => {
           bccMail: enteredBCCMail,
           subject: enteredSubject,
           composeMail: createTextVersion(convertedContent),
+          messageRead: false
         }),
         headers: {
           "Content-Type": "application/json",

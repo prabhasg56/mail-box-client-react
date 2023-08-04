@@ -1,18 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialMailState = {
-    composedMail: []
+  composedMail: [],
+  totalUnreadMessage: 0,
 };
 
 const mailSlice = createSlice({
-    name: 'composedMail',
-    initialState: initialMailState,
-    reducers: {
-        sentMails(state, action){
-           
-            state.composedMail = action.payload;
-        }
+  name: "composedMail",
+  initialState: initialMailState,
+  reducers: {
+    sentMails(state, action) {
+      state.composedMail = action.payload;
+    },
+    
+    updateUnreadMsg(state, action){
+        state.totalUnreadMessage = action.payload;
     }
+  },
 });
 
 export const mailAction = mailSlice.actions;

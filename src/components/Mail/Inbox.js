@@ -6,6 +6,29 @@ import { useSelector } from "react-redux";
 const Inbox = () => {
   const composedMails = useSelector((state) => state.mail.composedMail);
 
+  const deleteMailHandler = async(id) => {
+    const baseUrl = "https://mail-box-client-data-default-rtdb.firebaseio.com/";
+    const loginMail = localStorage.getItem("loginEmail");
+    const userId = loginMail.replace(/[@.]/g, "");
+
+    try{
+      const response = await fetch(`${baseUrl}${userId}/${id}.json`, {
+        method: 'DELETE'
+      });
+
+      const jsonResponse = await response.json();
+
+      if(!response.ok){
+        throw new Error(jsonResponse.error.message);
+      }
+      
+      alert('Deleted successfully!');
+
+    }catch(error){
+      alert(error);
+    }
+  }
+
   return (
     <>
       <Container className="mt-3">
@@ -27,21 +50,41 @@ const Inbox = () => {
       </Container>
 
       <Container className="mt-4">
-        <ul className="list-group list-group-flush fw-bold">
-          {composedMails.map((mail) => {
-            return (
-              <li className="list-group-item ">
-                <NavLink
-                  to={`/mail-details/${mail.id}`}
-                  className="nav-link text-decoration-none fs-10"
-                >
-                  <i className="bi bi-star"></i>
-                  <span className="ms-2 d-none d-sm-inline">{mail.clientMail.split('@gmail.com')}<span className="ms-5">{mail.subject}</span></span>
-                </NavLink>
-              </li>
-            );
-          })}
-        </ul>
+
+        <table className="table">
+          <tbody>
+            {composedMails.length !== 0 ? (
+              composedMails.map((mail) => {
+                let readMessage = mail.messageRead
+                  ? "bi-star"
+                  : "bi-star-fill text-primary";
+
+                return (
+                  <tr >
+                    <td>
+                      <NavLink
+                        to={`/mail-details/${mail.id}`}
+                        className="text-decoration-none fs-10"
+                      >
+                        <i className={`bi ${readMessage}`}></i>
+                        <span className="fw-bold ms-3">
+                          {mail.clientMail.split("@gmail.com")}
+                        </span>
+                      </NavLink>
+                    </td>
+                    <td className="fw-bold">{mail.subject}</td>
+
+                    <td> <i className={`bi bi-trash-fill text-danger`} onClick={()=> deleteMailHandler(mail.id)}></i></td>
+                  </tr>
+                );
+              })
+            ) : (
+              <h3 className="d-flex  justify-content-center">
+                Inbox is empty!
+              </h3>
+            )}
+          </tbody>
+        </table>
       </Container>
     </>
   );

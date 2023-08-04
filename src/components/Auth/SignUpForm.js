@@ -45,7 +45,7 @@ const SignUpForm = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center mt-5">
         <Form className="p-3 border border-dark rounded ">
           <h3 className="text-center">Sign Up</h3>
 
@@ -87,7 +87,7 @@ const SignUpForm = () => {
         </Form>
       </div>
       <div className="d-flex justify-content-center mt-2 ">
-        <NavLink to="signin" className="btn btn-secondary">
+        <NavLink to="/signin" className="btn btn-secondary">
           Have an account? Login
         </NavLink>
       </div>

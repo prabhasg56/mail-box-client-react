@@ -42,7 +42,7 @@ const SignInForm = (props) => {
           localStorage.setItem('loginEmail', jsonResponse.email);
 
           dispatch(authAction.signIn({idToken: jsonResponse.idToken, userId: enteredEmail}));
-          navigate('/composeMail');
+          navigate('/inbox');
           emailRef.current.value = "";
           passwordRef.current.value = "";
         } else {
@@ -98,7 +98,7 @@ const SignInForm = (props) => {
         </Form>
       </div>
       <div className="d-flex justify-content-center mt-2 ">
-        <NavLink to="/" className="btn btn-secondary">
+        <NavLink to="/signup" className="btn btn-secondary">
           Don't Have an account? Sign Up
         </NavLink>
       </div>
