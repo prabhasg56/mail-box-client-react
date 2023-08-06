@@ -37,7 +37,7 @@ const SentMails = () => {
                   : "bi-star-fill text-primary";
 
                 return (
-                  <tr >
+                  <tr key={mail.id}>
                     <td>
                       <NavLink
                         to={`/mail-details/${mail.id}`}

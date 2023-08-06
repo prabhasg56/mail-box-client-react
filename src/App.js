@@ -28,9 +28,10 @@ function App() {
     const baseUrl = "https://mail-box-client-data-default-rtdb.firebaseio.com/";
     const loginMail = localStorage.getItem("loginEmail");
     const userId = loginMail.replace(/[@.]/g, "");
+    let count = 0;
 
     const fetchComposedMail = async () => {
-      console.log('call')
+      
       try {
         const response = await fetch(`${baseUrl}${userId}.json`);
 
@@ -46,10 +47,12 @@ function App() {
             composedMails.push({ ...jsonResponse[key], id: key });
           }
 
-          if (!jsonResponse[key].messageRead) {
+          if (!jsonResponse[key].messageRead && count===0) {
             totalUnreadMessage++;
           }
         }
+        count++;
+
         dispatch(mailAction.sentMails(composedMails));
         dispatch(mailAction.updateUnreadMsg(totalUnreadMessage));
       } catch (error) {
@@ -57,8 +60,8 @@ function App() {
       }
     };
 
-    const intervals = setInterval(fetchComposedMail(), 2000);
-    clearInterval(intervals);
+    const intervals = setInterval(fetchComposedMail, 2000);
+    // clearInterval(intervals);
 
   }, [dispatch]);
   

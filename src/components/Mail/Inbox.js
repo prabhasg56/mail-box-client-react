@@ -6,28 +6,27 @@ import { useSelector } from "react-redux";
 const Inbox = () => {
   const composedMails = useSelector((state) => state.mail.composedMail);
 
-  const deleteMailHandler = async(id) => {
+  const deleteMailHandler = async (id) => {
     const baseUrl = "https://mail-box-client-data-default-rtdb.firebaseio.com/";
     const loginMail = localStorage.getItem("loginEmail");
     const userId = loginMail.replace(/[@.]/g, "");
 
-    try{
+    try {
       const response = await fetch(`${baseUrl}${userId}/${id}.json`, {
-        method: 'DELETE'
+        method: "DELETE",
       });
 
       const jsonResponse = await response.json();
 
-      if(!response.ok){
+      if (!response.ok) {
         throw new Error(jsonResponse.error.message);
       }
-      
-      alert('Deleted successfully!');
 
-    }catch(error){
+      alert("Deleted successfully!");
+    } catch (error) {
       alert(error);
     }
-  }
+  };
 
   return (
     <>
@@ -50,7 +49,6 @@ const Inbox = () => {
       </Container>
 
       <Container className="mt-4">
-
         <table className="table">
           <tbody>
             {composedMails.length !== 0 ? (
@@ -60,7 +58,7 @@ const Inbox = () => {
                   : "bi-star-fill text-primary";
 
                 return (
-                  <tr >
+                  <tr key={mail.id}>
                     <td>
                       <NavLink
                         to={`/mail-details/${mail.id}`}
@@ -74,7 +72,13 @@ const Inbox = () => {
                     </td>
                     <td className="fw-bold">{mail.subject}</td>
 
-                    <td> <i className={`bi bi-trash-fill text-danger`} onClick={()=> deleteMailHandler(mail.id)}></i></td>
+                    <td>
+                      {" "}
+                      <i
+                        className={`bi bi-trash-fill text-danger`}
+                        onClick={() => deleteMailHandler(mail.id)}
+                      ></i>
+                    </td>
                   </tr>
                 );
               })

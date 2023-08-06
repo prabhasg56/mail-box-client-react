@@ -49,10 +49,10 @@ const SideBarMenu = (props) => {
                   <span className="ms-2 d-none d-sm-inline">Sent</span>
                 </NavLink>
               </li>
-              <li class="nav-item text-white fs-4 my-1 py-2 py-sm-0">
+              <li className="nav-item text-white fs-4 my-1 py-2 py-sm-0">
                 <a
                   href="#"
-                  class="nav-link text-white fs-5"
+                  className="nav-link text-white fs-5"
                   aria-current="page"
                 >
                   <i className="bi bi-exclamation-octagon"></i>
@@ -60,20 +60,20 @@ const SideBarMenu = (props) => {
                 </a>
               </li>
 
-              <li class="nav-item text-white fs-4 my-1 py-2 py-sm-0">
+              <li className="nav-item text-white fs-4 my-1 py-2 py-sm-0">
                 <a
                   href="#"
-                  class="nav-link text-white fs-5"
+                  className="nav-link text-white fs-5"
                   aria-current="page"
                 >
                   <i className="bi bi-file-earmark-fill"></i>
                   <span className="ms-2 d-none d-sm-inline">Draft</span>
                 </a>
               </li>
-              <li class="nav-item text-white fs-4 my-1 py-2 py-sm-0">
+              <li className="nav-item text-white fs-4 my-1 py-2 py-sm-0">
                 <a
                   href="#"
-                  class="nav-link text-white fs-5"
+                  className="nav-link text-white fs-5"
                   aria-current="page"
                 >
                   <i className="bi bi-trash"></i>
@@ -83,9 +83,9 @@ const SideBarMenu = (props) => {
             </ul>
           </div>
 
-          <div class="dropdown open mb-2">
+          <div className="dropdown open mb-2">
             <a
-              class="text-decoration-none text-white dropdown-toggle"
+              className="text-decoration-none text-white dropdown-toggle"
               type="button"
               id="triggerId"
               data-bs-toggle="dropdown"
@@ -95,13 +95,13 @@ const SideBarMenu = (props) => {
               <i className="bi bi-person-circle"></i>
               <span className="ms-2">Profile</span>
             </a>
-            <div class="dropdown-menu" aria-labelledby="triggerId">
-              <a class="dropdown-item" href="#">
+            <div className="dropdown-menu" aria-labelledby="triggerId">
+              <a className="dropdown-item" href="#">
                 {" "}
                 <span className="d-sm-inline">1</span>{" "}
                 <span className="d-none d-sm-inline">Settings</span>
               </a>
-              <a class="dropdown-item" href="#">
+              <a className="dropdown-item" href="#">
                 <span className="d-sm-inline">2</span>{" "}
                 <span className="d-none d-sm-inline" onClick={()=> logOutHandler()}>{authData.isAutenticate ? "Log Out":"Log In"}</span>
               </a>
